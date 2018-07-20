@@ -12,7 +12,7 @@ spring:
     messages:
         basename: i18n/messages
     datasource:
-        url: jdbc:postgresql://localhost:5432/tyxr_dev?currentSchema=tyxr
+        url: jdbc:postgresql://host.docker.internal:5432/tyxr_dev?currentSchema=tyxr
         username: postgres
         password: P@ssw0rd
         driver-class-name: org.postgresql.Driver
