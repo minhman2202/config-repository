@@ -8,7 +8,7 @@ server:
 # Spring configuration
 spring:
     profiles:
-        active: development,security-mock
+        active: production,security-oauth2
     messages:
         basename: i18n/messages
     datasource:
