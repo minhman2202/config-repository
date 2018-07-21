@@ -8,7 +8,7 @@ server:
 # Spring configuration
 spring:
     profiles:
-        active: blockchain-mock,security-mock
+        include: blockchain-mock,security-mock
 
 # Ethereum configuration
 ethereum:
