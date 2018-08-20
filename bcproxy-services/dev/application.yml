@@ -1,27 +1,39 @@
 # Tomcat server configuration
 server:
-    port: 8080
+    port: 8081
     compression:
         enabled: true
         mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
 
+# actuator/info configuration
+info:
+    version: "@project.version@"
+
 # Spring configuration
 spring:
     profiles:
-        include: blockchain-mock,security-mock
+        include: blockchain-ethereum,security-oauth2
 
-# Ethereum configuration
-ethereum:
-    url: http://internal-blockchain-geth-alb-int1-750505441.eu-west-1.elb.amazonaws.com:8080
-    smartcontract:
-        address: 0x9bd287eb3d0841b8a3377af27bc8e2e1f1972448
-                
+# bcproxy-services specific configuration
+bcproxy:
+    backend:
+        basepath: http://localhost:8080
+    ethereum:
+        #url: http://internal-geth-lb-int5-1617355113.eu-west-1.elb.amazonaws.com:8080
+        url : int5geth.euwe.tyxr.net:8080
+        smartcontract:
+            address: "0xdc28fea90b46c92ee0c28379910a3b2f561ed6c3"
+        main-account:
+            address: "0x1Be3Ace5F7709a537c1477173Df82AdABca524b8"
+            private-key: "0x55e3a0b25a5005a0252cb0364da590f9a23caa0d67305d28e997d11b8e665608"
+
 # logging
 logging:
     pattern:
-        console: "%d{yyyy-MM-dd HH:mm:ss} %-5level - %msg%n"
-        file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-    file: ${java.io.tmpdir}/backend-services.log
+        console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{tmx-correlation-id}] %-5level %logger{36} - %msg%n"
+        file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{tmx-correlation-id}] %-5level %logger{36} - %msg%n"
+    file: ${java.io.tmpdir}/bcproxy-services.log
     level:
         org.springframework.cloud.config: INFO
-        org.springframework.security: DEBUG
+        org.springframework.security: INFO
+        io.tyxr: DEBUG
