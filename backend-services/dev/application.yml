@@ -5,14 +5,22 @@ server:
         enabled: true
         mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
 
+# actuator/info configuration
+info:
+    version: "@project.version@"
+
 # Spring configuration
 spring:
+    flyway:
+        schemas: tyxr
+        baseline-on-migrate: true
+        validate-on-migrate: false
     profiles:
-        include: production,security-mock
+        include: production,security-oauth2
     messages:
         basename: i18n/messages
     datasource:
-        url: jdbc:postgresql://host.docker.internal:5432/tyxr_dev?currentSchema=tyxr
+        url: jdbc:postgresql://localhost:5432/tyxr_dev?currentSchema=tyxr
         username: postgres
         password: P@ssw0rd
         driver-class-name: org.postgresql.Driver
@@ -33,13 +41,19 @@ spring:
                     lob:
                         non_contextual_creation: true # to solve https://github.com/spring-projects/spring-boot/issues/12007
         open-in-view: false
-                
+
+# backend-services specific configuration
+backend:
+    bcproxy:
+        basepath: http://localhost:8081
+
 # logging
 logging:
     pattern:
-        console: "%d{yyyy-MM-dd HH:mm:ss} %-5level - %msg%n"
-        file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+        console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{tmx-correlation-id}] %-5level %logger{36} - %msg%n"
+        file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{tmx-correlation-id}] %-5level %logger{36} - %msg%n"
     file: ${java.io.tmpdir}/backend-services.log
     level:
         org.springframework.cloud.config: INFO
-        org.springframework.security: DEBUG
+        org.springframework.security: INFO
+        io.tyxr: DEBUG
