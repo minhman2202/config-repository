@@ -1,6 +1,6 @@
 # Tomcat server configuration
 server:
-    port: 8082
+    port: 8087
     compression:
         enabled: true
         mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
