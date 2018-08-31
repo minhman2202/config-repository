@@ -1,0 +1,57 @@
+# Tomcat server configuration
+server:
+    port: 8082
+    compression:
+        enabled: true
+        mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
+    tomcat:
+        accesslog:
+            enabled: true
+
+# actuator/info configuration
+info:
+    version: "@project.version@"
+
+# Spring configuration
+spring:
+    profiles:
+        active: security-mock
+    messages:
+        basename: i18n/messages
+    thymeleaf:
+        mode: LEGACYHTML5
+        cache: false    
+    flyway:
+        schemas: stxbc_appl
+        baseline-on-migrate: true
+        validate-on-migrate: false
+    datasource:
+        url: jdbc:postgresql://localhost:5432/stx_blockchain_dev?currentSchema=stxbc_appl
+        username: postgres
+        password: P@ssw0rd
+        driver-class-name: org.postgresql.Driver
+        hikari:
+            connection-test-query: SELECT 1
+            connection-timeout: 30000 # 30 sec
+            idle-timeout: 10000 # 10 sec
+            maximum-pool-size: 100 # max 100
+            minimum-idle: 5
+    jpa:
+        properties:
+            hibernate:
+                default_schema: stxbc_appl
+                dialect: org.hibernate.dialect.PostgreSQL94Dialect
+                show_sql: false
+                format_sql: false
+                jdbc:
+                    lob:
+                        non_contextual_creation: true # to solve https://github.com/spring-projects/spring-boot/issues/12007
+        open-in-view: true
+
+# admintool specific configuration
+admintool:
+    bcproxy:
+        basepath: http://localhost:8081    
+    backend:
+        basepath: http://localhost:8080    
+    cas-endpoint: https://{instit_code}.int2-pos.secutix.com
