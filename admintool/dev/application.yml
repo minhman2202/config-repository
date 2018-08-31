@@ -15,7 +15,7 @@ info:
 # Spring configuration
 spring:
     profiles:
-        include: security-mock
+        include: security
     messages:
         basename: i18n/messages
     thymeleaf:
