@@ -43,4 +43,4 @@ logging:
     name: filebeat
     rotateeverybytes: 11048576
     keepfiles: 5
-  level: info,xyz
+  level: info
